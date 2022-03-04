@@ -33,7 +33,7 @@
                         <a href="login.html" class="nav-link" href="#explore-head-section">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#create-head-section">ChatBot</a>
+                        <a href="untitled.html" class="nav-link" href="#create-head-section">ChatBot</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#share-head-section">Share</a>
@@ -90,28 +90,33 @@
                             <div class="card-body">
                                 <h3>SignUp Today</h3>
                                 <p>Please fill this below to register </p>
-                                <form action="">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-lg" placeholder="Firstname">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-lg" placeholder="Lastname">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-lg" placeholder="Username">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-lg" placeholder="Contact">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="email" class="form-control form-control-lg" placeholder="Email">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control form-control-lg"
-                                            placeholder="Password">
-                                    </div>
-                                    <input type="submit" value="Submit" class="btn btn-outline-light btn-block">
+
+                                <form id="register" onsubmit="event.preventDefault(); myfunc()" >
+                                        <div class="form-group">
+                                            <input type="text" id="firstName"  class="form-control form-control-lg" placeholder="Firstname" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="lastName" class="form-control form-control-lg" placeholder="Lastname" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="userName" class="form-control form-control-lg" placeholder="Username" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="number" id="contact" class="form-control form-control-lg" placeholder="Contact" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" id="email" class="form-control form-control-lg" placeholder="Email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" id="password" class="form-control form-control-lg"
+                                                placeholder="Password">
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            value="Login"
+                                            class="btn btn-outline-light btn-block pt-8 mt-6" >Submit</button>
                                 </form>
+
                             </div>
                         </div>
                     </div>
@@ -194,6 +199,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
         integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous">
     </script>
+    <script src="./js/main.js"></script>
     <script>
         // Get the current year for the copyright
         $('#year').text(new Date().getFullYear());
