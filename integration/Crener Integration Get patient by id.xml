@@ -1,0 +1,95 @@
+<connector version="3.9.1">
+  <metaDataId>2</metaDataId>
+  <name>Get patient by id</name>
+  <properties class="com.mirth.connect.connectors.js.JavaScriptDispatcherProperties" version="3.9.1">
+    <pluginProperties/>
+    <destinationConnectorProperties version="3.9.1">
+      <queueEnabled>false</queueEnabled>
+      <sendFirst>false</sendFirst>
+      <retryIntervalMillis>10000</retryIntervalMillis>
+      <regenerateTemplate>false</regenerateTemplate>
+      <retryCount>0</retryCount>
+      <rotate>false</rotate>
+      <includeFilterTransformer>false</includeFilterTransformer>
+      <threadCount>1</threadCount>
+      <threadAssignmentVariable></threadAssignmentVariable>
+      <validateResponse>false</validateResponse>
+      <resourceIds class="linked-hash-map">
+        <entry>
+          <string>Default Resource</string>
+          <string>[Default Resource]</string>
+        </entry>
+      </resourceIds>
+      <queueBufferSize>1000</queueBufferSize>
+      <reattachAttachments>true</reattachAttachments>
+    </destinationConnectorProperties>
+    <script>var id = sourceMap.get(&apos;id&apos;);
+var access_token = sourceMap.get(&apos;access-token&apos;);
+var path = &apos;/Patient/&apos;;
+logger.info(id);
+path += id;
+
+var channelSender = globalMap.get(&apos;v1_cerner_api_sender&apos;);
+var baseMap = Maps.map()
+    .add(&apos;sourceChannelId&apos;, channelId)
+    .add(&apos;sourceChannelName&apos;, channelName)
+    .add(&apos;sourceMessageId&apos;, connectorMessage.getMessageId().toString())
+    .add(&apos;path&apos;, path)
+    .add(&apos;access-token-cerner&apos;, access_token);
+
+var appointmentRequest = new RawMessage(id, [1], baseMap);
+var appointmentLookUPResponse = router.routeMessageByChannelId(channelSender, appointmentRequest);
+
+if (appointmentLookUPResponse.getStatus() != &apos;SENT&apos;) {
+    logger.info(&quot;Error&quot; + appointmentLookUPResponse.getError());
+    return appointmentLookUPResponse.getError();
+}
+
+var msg = appointmentLookUPResponse.getMessage();
+
+channelMap.put(&apos;http-status-code&apos;, &apos;200&apos;);
+channelMap.put(&apos;http-content-type&apos;, &apos;application/json&apos;);
+return ResponseFactory.getSentResponse(msg);</script>
+  </properties>
+  <transformer version="3.9.1">
+    <elements/>
+    <inboundDataType>RAW</inboundDataType>
+    <outboundDataType>RAW</outboundDataType>
+    <inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.9.1">
+      <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.9.1">
+        <splitType>JavaScript</splitType>
+        <batchScript></batchScript>
+      </batchProperties>
+    </inboundProperties>
+    <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.9.1">
+      <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.9.1">
+        <splitType>JavaScript</splitType>
+        <batchScript></batchScript>
+      </batchProperties>
+    </outboundProperties>
+  </transformer>
+  <responseTransformer version="3.9.1">
+    <elements/>
+    <inboundDataType>RAW</inboundDataType>
+    <outboundDataType>RAW</outboundDataType>
+    <inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.9.1">
+      <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.9.1">
+        <splitType>JavaScript</splitType>
+        <batchScript></batchScript>
+      </batchProperties>
+    </inboundProperties>
+    <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.9.1">
+      <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.9.1">
+        <splitType>JavaScript</splitType>
+        <batchScript></batchScript>
+      </batchProperties>
+    </outboundProperties>
+  </responseTransformer>
+  <filter version="3.9.1">
+    <elements/>
+  </filter>
+  <transportName>JavaScript Writer</transportName>
+  <mode>DESTINATION</mode>
+  <enabled>true</enabled>
+  <waitForPrevious>true</waitForPrevious>
+</connector>
