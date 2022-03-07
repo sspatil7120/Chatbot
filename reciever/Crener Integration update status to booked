@@ -1,0 +1,69 @@
+<connector version="3.9.1">
+<metaDataId>6</metaDataId>
+<name>update status to booked</name>
+<properties class="com.mirth.connect.connectors.js.JavaScriptDispatcherProperties" version="3.9.1">
+<pluginProperties/>
+<destinationConnectorProperties version="3.9.1">
+<queueEnabled>false</queueEnabled>
+<sendFirst>false</sendFirst>
+<retryIntervalMillis>10000</retryIntervalMillis>
+<regenerateTemplate>false</regenerateTemplate>
+<retryCount>0</retryCount>
+<rotate>false</rotate>
+<includeFilterTransformer>false</includeFilterTransformer>
+<threadCount>1</threadCount>
+<threadAssignmentVariable/>
+<validateResponse>false</validateResponse>
+<resourceIds class="linked-hash-map">
+<entry>
+<string>Default Resource</string>
+<string>[Default Resource]</string>
+</entry>
+</resourceIds>
+<queueBufferSize>1000</queueBufferSize>
+<reattachAttachments>true</reattachAttachments>
+</destinationConnectorProperties>
+<script>var pid = sourceMap.get('id'); var access_token = sourceMap.get('access-token'); var path = '/Appointment/'; logger.info(pid); path += pid; var eventData = sourceMap.get('eventData'); var access_token = sourceMap.get('access-token'); var channelSender = globalMap.get('v1_cerner_api_sender'); var baseMap = Maps .map() .add('sourceChannelId', channelId) .add('sourceChannelName', channelName) .add('sourceMessageId', connectorMessage.getMessageId().toString()) .add('path', path) .add('access-token-cerner', access_token) .add('isBookedAppointment', true) var appointmentRequest = new RawMessage(JSON.stringify(eventData), [6], baseMap); var appointmentLookUPResponse = router.routeMessageByChannelId(channelSender, appointmentRequest); if (appointmentLookUPResponse.getStatus() != 'SENT') { logger.info("Error in integration" + appointmentLookUPResponse.getError()); channelMap.put('http-status-code', '400'); return appointmentLookUPResponse; } return appointmentLookUPResponse.getMessage();</script>
+</properties>
+<transformer version="3.9.1">
+<elements/>
+<inboundDataType>RAW</inboundDataType>
+<outboundDataType>RAW</outboundDataType>
+<inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.9.1">
+<batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.9.1">
+<splitType>JavaScript</splitType>
+<batchScript/>
+</batchProperties>
+</inboundProperties>
+<outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.9.1">
+<batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.9.1">
+<splitType>JavaScript</splitType>
+<batchScript/>
+</batchProperties>
+</outboundProperties>
+</transformer>
+<responseTransformer version="3.9.1">
+<elements/>
+<inboundDataType>RAW</inboundDataType>
+<outboundDataType>RAW</outboundDataType>
+<inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.9.1">
+<batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.9.1">
+<splitType>JavaScript</splitType>
+<batchScript/>
+</batchProperties>
+</inboundProperties>
+<outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.9.1">
+<batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.9.1">
+<splitType>JavaScript</splitType>
+<batchScript/>
+</batchProperties>
+</outboundProperties>
+</responseTransformer>
+<filter version="3.9.1">
+<elements/>
+</filter>
+<transportName>JavaScript Writer</transportName>
+<mode>DESTINATION</mode>
+<enabled>true</enabled>
+<waitForPrevious>true</waitForPrevious>
+</connector>
